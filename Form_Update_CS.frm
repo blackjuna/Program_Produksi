@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.ocx"
 Begin VB.Form Form_Update_CS 
    Caption         =   "Form Update CS"
    ClientHeight    =   9615
@@ -84,7 +84,7 @@ Begin VB.Form Form_Update_CS
             _ExtentX        =   3413
             _ExtentY        =   661
             _Version        =   393216
-            Format          =   16515073
+            Format          =   98631681
             CurrentDate     =   41739
          End
          Begin MSComCtl2.DTPicker dtreal2 
@@ -96,7 +96,7 @@ Begin VB.Form Form_Update_CS
             _ExtentX        =   3413
             _ExtentY        =   661
             _Version        =   393216
-            Format          =   16515073
+            Format          =   98631681
             CurrentDate     =   41739
          End
          Begin VB.Label Label18 
@@ -139,7 +139,7 @@ Begin VB.Form Form_Update_CS
          _ExtentX        =   3413
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   16515073
+         Format          =   98631681
          CurrentDate     =   41739
       End
       Begin VB.Label Label16 
@@ -281,7 +281,7 @@ Begin VB.Form Form_Update_CS
          _ExtentX        =   3413
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   16515073
+         Format          =   98631681
          CurrentDate     =   41739
       End
       Begin VB.Label Label12 
@@ -547,10 +547,17 @@ Sub TplGrid()
 End Sub
 
 Sub update()
-ubah = "UPDATE completion_slip SET delivery_date='" & Format(dtdeliverydate.Value, "YYYY/mm/dd") & "', status='" & cstatus.Text & "', qty_pending='" & tqtypending.Text & "', heat_number='" & theat_number.Text & "', cert_number='" & tcert_number.Text & "',remarks_produksi='" & tremarks.Text & "' where no_slip='" & tno_slip.Text & "'"
-    Set rscompletion_slip = conn.Execute(ubah)
+    ubah = "UPDATE completion_slip SET delivery_date='" & Format(dtdeliverydate.Value, "YYYY/mm/dd") & "', " & _
+        "status='" & cstatus.Text & "', qty_pending='" & tqtypending.Text & "', " & _
+        "heat_number='" & theat_number.Text & "', cert_number='" & tcert_number.Text & "'," & _
+        "remarks_produksi='" & tremarks.Text & "' where no_slip='" & tno_slip.Text & "'"
+    'Set rscompletion_slip = conn.Execute(ubah)
+'    Dim cmd
+'    Set cmd = Server.CreateObject("ADODB.Command")
+    conn.CommandTimeout = 120 ' number of seconds
+    conn.Execute (ubah)
     'tampilgrid
-    Call bersih
+'    Call bersih
     Call Form_Activate
 End Sub
 
